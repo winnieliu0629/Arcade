@@ -1,0 +1,70 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="style.css" />
+    <title>The Arcade</title>
+</head>
+<body>
+    <header>
+        <h1>Tic Tac Toe</h1>
+        <!-- <nav>
+          <a href="">Easy</a>
+          <a href="">Medium</a>
+          <a href="">Impossible</a>
+        </nav> -->
+    </header>
+    <main>
+        <!-- <div>
+            <p class="boardSize">Choose a grid</p>
+            <button class="3x3">3x3</button>
+            <button class="5x5">5x5</button>
+            <button class="7x7">7x7</button>
+        </div> -->
+        <div id="playerMode" class="panel">
+            <button id="p1Button">1 Player</p>
+            <button id="p2Button">2 Players</p>
+        </div>
+        <div id="playerName" class="panel" hidden>
+            <div id="n1" hidden>
+                <label>Enter your name:</label>
+                <input type="text" id="nameInput" placeholder="Player">            
+            </div>
+            <div id="n2" hidden>
+                <label>Player1 name:</label>
+                <input type="text" id="p1Input" placeholder="Player1">
+                <label>Player2 name:</label>
+                <input type="text" id="p2Input" placeholder="Player2">                
+            </div>
+            <button id="submit" hidden>Submit</button>
+        </div>
+        </div>
+        <h4 id="hint" hidden>Hint</h4>
+        <div id="board" hidden></div>
+        </div>
+        <div id="scores" hidden>
+            <p class="player1">
+                <span id="p1Name">Player(O)</span>
+                <span id="p1Win">0</span>
+            </p>
+            <p class="tie">
+                <span>Tie</span>
+                <span id="draw">0</span>
+            </p>
+            <p class="player2">
+                <span id="p2Name">Computer(X)</span>
+                <span id="p2Win">0</span>
+            </p>
+        </div>
+    </main>
+    <footer>
+        <div>
+            <button id="newGame">New Game</button>
+            <button id="reset">Reset Scores</button>
+        </div>
+    </footer>
+    <script src="app.js"></script>
+</body>
+</html>
