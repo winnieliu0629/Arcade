@@ -28,34 +28,28 @@
             <button id="p2Button">2 Players</p>
         </div>
         <div id="playerName" class="panel" hidden>
-            <div id="n1" hidden>
-                <label>Enter your name:</label>
-                <input type="text" id="nameInput" placeholder="Player">            
-            </div>
-            <div id="n2" hidden>
-                <label>Player1 name:</label>
-                <input type="text" id="p1Input" placeholder="Player1">
-                <label>Player2 name:</label>
-                <input type="text" id="p2Input" placeholder="Player2">                
-            </div>
+            <label id="p1Label" hidden>Player1 name:</label>
+            <input type="text" hidden id="p1Input">
+            <label id="p2Label" hidden>Player2 name:</label>
+            <input type="text" hidden id="p2Input">                
             <button id="submit" hidden>Submit</button>
         </div>
         </div>
-        <h4 id="hint" hidden>Hint</h4>
+        <h4 id="hint" hidden>Place three in a row!</h4>
         <div id="board" hidden></div>
         </div>
         <div id="scores" hidden>
             <p class="player1">
                 <span id="p1Name">Player(O)</span>
-                <span id="p1Win">0</span>
+                <span id="p1WinEl">0</span>
             </p>
             <p class="tie">
                 <span>Tie</span>
-                <span id="draw">0</span>
+                <span id="tieEl">0</span>
             </p>
             <p class="player2">
                 <span id="p2Name">Computer(X)</span>
-                <span id="p2Win">0</span>
+                <span id="p2WinEl">0</span>
             </p>
         </div>
     </main>
