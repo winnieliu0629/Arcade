@@ -109,7 +109,7 @@ function getPosDiagnal(board) {
     }
     return newGrid;
 }
-  
+
 function getNegDiagnal(board) {
     let newGrid = [];
     for (let i = 0; i < board.length; i++) {
@@ -220,7 +220,6 @@ board3x3.addEventListener("click", function () {
     gameState.numRows = 3;
     gameState.numColumns = 3;
     gameState.createBoard();
-    console.log(gameState.board);
     hint.textContent = "Place 3 in a row!";
 });
   
@@ -272,6 +271,7 @@ submit.addEventListener("click", function () {
     hint.hidden = false;
     board.hidden = false;
     scores.hidden = false;
+    reset.hidden = false;
     updateName();
     randomStart();
     renderBoard();
@@ -390,7 +390,6 @@ function randomPlayer() {
 
 function randomStart() {
     gameState.currentPlayer = randomPlayer();
-    console.log(randomPlayer());
     if (gameState.currentPlayer == 1) {
         if (p1ButtonClicked) {
             gameState.randomMove();
@@ -427,6 +426,7 @@ newGame.addEventListener("click", function () {
     p2Name.textContent = "";
     p1ButtonClicked = false;
     p2ButtonClicked = false;
+    reset.hidden = true;
 });
 
 reset.addEventListener("click", function () {
