@@ -71,13 +71,20 @@ footer{
 
 #board{
     display: flex;
-    width: 360px;
     flex-wrap: wrap;
 }
 
+.smallBoard {
+    width: 300px;
+}
+
+.largeBoard {
+    width: 400px;
+}
+
 .cell{
-    width: 120px;
-    height: 120px;
+    width: 100px;
+    height: 100px;
     display: flex;
     font-size: 60px;
     justify-content: center;
@@ -88,14 +95,27 @@ span{
     font-size: 30px;
 }
 
-.cell:nth-child(3n+2){
+.small:nth-child(3n+2){
     border-left: 3px solid black; 
     border-right: 3px solid black; 
 }
 
-.cell:nth-child(n+4):nth-child(-n+6){
+.small:nth-child(n+4):nth-child(-n+6){
     border-top: 3px solid black; 
     border-bottom: 3px solid black; 
+}
+
+.large:nth-child(4n+2){
+    border-left: 3px solid black; 
+    border-right: 3px solid black; 
+}
+
+.large:nth-child(4n+3){
+    border-right: 3px solid black; 
+}
+
+.large:nth-child(n+5){
+    border-top: 3px solid black; 
 }
 
 label, button {

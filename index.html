@@ -10,22 +10,15 @@
 <body>
     <header>
         <h1>Tic Tac Toe</h1>
-        <!-- <nav>
-          <a href="">Easy</a>
-          <a href="">Medium</a>
-          <a href="">Impossible</a>
-        </nav> -->
     </header>
     <main>
-        <!-- <div>
-            <p class="boardSize">Choose a grid</p>
-            <button class="3x3">3x3</button>
-            <button class="5x5">5x5</button>
-            <button class="7x7">7x7</button>
-        </div> -->
-        <div id="playerMode" class="panel">
-            <button id="p1Button">1 Player</p>
-            <button id="p2Button">2 Players</p>
+        <div id="boardSize">
+            <button id="board3x3">3x3</button>
+            <button id="board4x4">4x4</button>
+        </div>
+        <div id="playerMode" hidden class="panel">
+            <button id="p1Button" hidden>1 Player</p>
+            <button id="p2Button" hidden>2 Players</p>
         </div>
         <div id="playerName" class="panel" hidden>
             <label id="p1Label" hidden>Player1 name:</label>
@@ -35,7 +28,7 @@
             <button id="submit" hidden>Submit</button>
         </div>
         </div>
-        <h4 id="hint" hidden>Place three in a row!</h4>
+        <h4 id="hint" hidden></h4>
         <div id="board" hidden></div>
         </div>
         <div id="scores" hidden>

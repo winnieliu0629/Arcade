@@ -1,11 +1,20 @@
 const gameState = {
     players: ['O', 'X'],
     currentPlayer: 0,
-    board: [
-      [null, null, null],
-      [null, null, null],
-      [null, null, null]
-    ],
+    numRows: 3,
+    numColumns: 3,
+    board: [],
+    createBoard: function () {
+        let board = [];
+        for(let i = 0; i < this.numRows; i++) {
+            board[i] = [];
+            for(let j = 0; j < this.numColumns; j++) {
+                board[i][j] = null;
+            }
+        }
+        this.board = board;
+        return board;
+    },
     checkLine: function() {
         for(let i = 0; i < this.board.length; i++){
             if(includesThree(getRow(this.board, i)) || includesThree(getColumn(this.board, i)) || includesThree(getPosDiagnal(this.board)) || includesThree(getNegDiagnal(this.board))){
@@ -24,20 +33,20 @@ const gameState = {
         }
         return false;
     },
-    move: function(char, numRows, numColumns) {
-        if (this.board[numRows][numColumns] === null) {
-          this.board[numRows][numColumns] = char;
-        } 
-        return this.board;
-    },
-    clear: function() {
-        this.board = [
-    [null, null, null],
-    [null, null, null],
-    [null, null, null]
-    ]
-    return this.board;
-  }
+    randomMove: function() {
+        while(this.checkNull) {
+            i = randomNum(this.board);
+            j = randomNum(this.board);
+            if (this.board[i][j] == null) {
+                    this.board[i][j] = 'X';
+                    return this.board;
+            }
+        }
+    }
+}
+
+function randomNum(board) {
+    return Math.floor(Math.random() * board.length);
 }
 
 function getRow(board, numRows) {
@@ -78,6 +87,9 @@ function includesThree(arr) {
     return true;
 }
 
+const boardSize = document.querySelector('#boardSize');
+const board3x3 = document.querySelector('#board3x3');
+const board4x4 = document.querySelector('#board4x4');
 const p1Button = document.querySelector('#p1Button');
 const p2Button = document.querySelector('#p2Button');
 const playerName = document.querySelector('#playerName');
@@ -91,6 +103,29 @@ const p1Name = document.querySelector('#p1Name');
 const p2Name = document.querySelector('#p2Name');
 const hint = document.querySelector('#hint');
 const board = document.querySelector('#board');
+
+board3x3.addEventListener('click', function() {
+    board3x3.hidden = true;
+    board4x4.hidden = true;
+    p1Button.hidden = false;
+    p2Button.hidden = false;
+    gameState.numRows = 3;
+    gameState.numColumns = 3;
+    gameState.createBoard();
+    console.log(gameState.board);
+    hint.textContent = 'Place 3 in a row!';
+})
+
+board4x4.addEventListener('click', function() {
+    board3x3.hidden = true;
+    board4x4.hidden = true;
+    p1Button.hidden = false;
+    p2Button.hidden = false;
+    gameState.numRows = 4;
+    gameState.numColumns = 4;
+    gameState.createBoard();
+    hint.textContent = 'Place 4 in a row!';
+})
 
 let p1ButtonClicked = false;
 let p2ButtonClicked = false;
@@ -130,6 +165,7 @@ submit.addEventListener('click',function() {
     board.hidden = false;
     scores.hidden = false;
     updateName();
+    randomStart();
     renderBoard();
 })
 
@@ -165,13 +201,25 @@ function renderBoard() {
 function createCell(rowIndex,columnIndex) {
     const cell = document.createElement('div');
     cell.classList.add('cell');
+    if(gameState.numRows == 3) {
+        console.log('3x3clicked');
+        board.classList.remove('smallBoard','largeBoard');
+        cell.classList.remove('small','large');
+        board.classList.add('smallBoard');
+        cell.classList.add('small');
+    } else {
+        console.log('3x3notclicked');
+        board.classList.remove('smallBoard','largeBoard');
+        cell.classList.remove('small','large');
+        board.classList.add('largeBoard');
+        cell.classList.add('large');
+    }
     cell.classList.add('hidden');
     cell.hidden = false;
     cell.dataset.row = rowIndex;
     cell.dataset.column = columnIndex;
     cell.textContent = gameState.board[rowIndex][columnIndex];
     board.appendChild(cell);
-    console.log('click');
 }
 
 board.addEventListener('click', function(event) {
@@ -181,11 +229,17 @@ board.addEventListener('click', function(event) {
         if(gameState.board[row][column] == null) {
             gameState.board[row][column] = gameState.players[gameState.currentPlayer];
             checkWin();
+            if (p1ButtonClicked) {
+                gameState.randomMove();
+                checkWin();
+            }
         } else {
             hint.textContent = `${gameState.players[gameState.currentPlayer]} turn`;
         }
     }
     renderBoard();
+
+    // computer move and render board again
 })
 
 const p1WinEl = document.querySelector('#p1WinEl');
@@ -200,18 +254,18 @@ function checkWin() {
         if(gameState.currentPlayer == 0) {
             p1Win++;
             hint.textContent = `${p1Input.value} win!`
-            gameState.clear();
+            gameState.createBoard();
             changePlayer();
         } else {
             p2Win++;
             hint.textContent = `${p2Input.value} win!`
-            gameState.clear();
+            gameState.createBoard();
             changePlayer();
         }
     } else if(gameState.checkNull() == false) {
         tie++;
         hint.textContent = `Tie!`
-        gameState.clear();
+        gameState.createBoard();
         changePlayer();
     } else {
         changePlayer();
@@ -226,20 +280,33 @@ function updateScores() {
     p2WinEl.textContent = p2Win;
 }
 
+function randomPlayer() {
+    return Math.floor(Math.random() * 2);
+}
+
+function randomStart() {
+    gameState.currentPlayer = randomPlayer();
+    console.log(randomPlayer());
+    if(gameState.currentPlayer === 1) {
+        if (p1ButtonClicked) {
+            gameState.randomMove();
+            changePlayer();
+        }
+    }
+}
+
 function changePlayer() {
     gameState.currentPlayer = gameState.currentPlayer === 0 ? 1 : 0;
 }
-
-// const move = setInterval( function() {
-
-// },1000)
 
 const newGame = document.querySelector('#newGame');
 const reset = document.querySelector('#reset');
 
 newGame.addEventListener('click', function() {
-    p1Button.hidden = false;
-    p2Button.hidden = false;
+    board3x3.hidden = false;
+    board4x4.hidden = false;
+    p1Button.hidden = true;
+    p2Button.hidden = true;
     playerName.hidden = true;
     p1Label.hidden = true;
     p2Label.hidden = true;
@@ -268,6 +335,6 @@ function resetGame() {
     tie = 0;
     p2Win = 0;
     updateScores();
-    gameState.clear();
-    hint.textContent = 'Place three in a row!';
+    gameState.createBoard();
+    hint.textContent = 'New start!';
 }
