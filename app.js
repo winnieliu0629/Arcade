@@ -36,7 +36,7 @@ const gameState = {
                 }
             }
         }
-    return false;
+        return false;
     },
     randomMove: function () {
         while (this.checkNull) {
@@ -48,31 +48,37 @@ const gameState = {
             }
         }
     },
-    smartMove: function() {
+    smartMove: function(maxIndex) {
         if (maxIndex == 0) {
             for (let i = 0; i < this.board.length; i++) {
-                if (this.board[i][-1 * i + 2] == null) {
-                    return (this.board[i][-1 * i + 2] = "X");
+                if (this.board[i][-1 * i + this.board.length - 1] == null) {
+                    this.board[i][-1 * i + this.board.length - 1] = "X";
+                    return this.board;
                 }
             }
         } else if (maxIndex == 1) {
             for (let i = 0; i < this.board.length; i++) {
                 if (this.board[i][i] == null) {
-                    return (this.board[i][i] = "X");
+                    this.board[i][i] = "X";
+                    return this.board;
                 }
             }
+        } else if (maxIndex == -1) {
+            return this.randomMove();
         } else if (maxIndex <= 2 + this.board.length) {
-        let row = maxIndex - 2;
+            let row = maxIndex - 2;
             for (let i = 0; i < this.board.length; i++) {
                 if (this.board[row][i] == null) {
-                    return (this.board[row][i] = "X");
+                    this.board[row][i] = "X";
+                    return this.board;
                 }
             }
         } else {
-        let row = board[maxIndex - this.board.length - 2];
+            let column = maxIndex - this.board.length - 2;
             for (let i = 0; i < this.board.length; i++) {
-                if (this.board[row][i] == null) {
-                    return (this.board[row][i] = "X");
+                if (this.board[i][column] == null) {
+                    this.board[i][column] = "X";
+                    return this.board;
                 }
             }
         }
@@ -99,7 +105,7 @@ function getColumn(board, numColumns) {
 function getPosDiagnal(board) {
     let newGrid = [];
     for (let i = 0; i < board.length; i++) {
-      newGrid.push(board[i][-1 * i + 2]);
+      newGrid.push(board[i][-1 * i + board.length - 1]);
     }
     return newGrid;
 }
@@ -186,7 +192,6 @@ function getMaxCount(board, player) {
             }
         }
     }
-    console.log(maxArray);
     return maxIndex;
 }
 
@@ -305,13 +310,11 @@ function createCell(rowIndex, columnIndex) {
     const cell = document.createElement("div");
     cell.classList.add("cell");
     if (gameState.numRows == 3) {
-        console.log("3x3clicked");
         board.classList.remove("smallBoard", "largeBoard");
         cell.classList.remove("small", "large");
         board.classList.add("smallBoard");
         cell.classList.add("small");
     } else {
-        console.log("3x3notclicked");
         board.classList.remove("smallBoard", "largeBoard");
         cell.classList.remove("small", "large");
         board.classList.add("largeBoard");
@@ -333,8 +336,8 @@ board.addEventListener("click", function (event) {
             gameState.board[row][column] = gameState.players[gameState.currentPlayer];
             checkWin();
             if (p1ButtonClicked) {
-            gameState.randomMove();
-            checkWin();
+                gameState.smartMove(getMaxCount(gameState.board, gameState.players[0]));
+                checkWin();
             }
             renderBoard();
         } else {
@@ -388,7 +391,7 @@ function randomPlayer() {
 function randomStart() {
     gameState.currentPlayer = randomPlayer();
     console.log(randomPlayer());
-    if (gameState.currentPlayer === 1) {
+    if (gameState.currentPlayer == 1) {
         if (p1ButtonClicked) {
             gameState.randomMove();
             changePlayer();
